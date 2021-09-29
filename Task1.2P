@@ -1,36 +1,25 @@
-// C++ code
+//C++ code
 //
+const int buttonPin = 2; 
+//it is the number of the push button
+const int ledPin = 13; 
+//it is the number of the led Pin
 
-int baselineTemp = 0;
-int celsius = 0;
-int fahrenheit = 0;
-volatile byte state = LOW;
-
-
+uint8_t led_state = LOW; //sets the led state to LOW 7
 void setup()
 {
-  pinMode(A0, INPUT_PULLUP);
-  Serial.begin(9600);
-  pinMode(2, OUTPUT);
-  attachInterrupt(digitalPinToInterrupt(2), blink, HIGH);
+pinMode(13, OUTPUT); 
+  // intialises the led pin as output pinMode(2, INPUT); 
+  //intializes the push button as input
+attachInterrupt(digitalPinToInterrupt(2), new_isr, CHANGE); //attach interrupt to the ISR vector
 }
-
 void loop()
 {
-  baselineTemp = 40;
-  celsius = map(((analogRead(A0) - 20) * 3.04), 0, 1023, -40, 125);
-  fahrenheit = ((celsius * 9) / 5 + 32);
-  Serial.print(celsius);
-  Serial.print("C, ");
-  Serial.print(fahrenheit);
-  Serial.println(" F");
-  
-  delay(1000);
-  
+delay(500); // wait for 0.5 second
 }
-
-void blink()
+//interrupt service routine //call isr when interrupt occurs //ISR function
+void new_isr()
 {
-  state = !state;
+led_state = !led_state;//toggle state when interrupt occurs
+digitalWrite(ledPin, led_state); //led pin = 13 equal the state value 
 }
-
