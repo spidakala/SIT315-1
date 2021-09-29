@@ -18,8 +18,8 @@ void loop()
 delay(500); // wait for 0.5 second
 }
 //interrupt service routine //call isr when interrupt occurs //ISR function
-void new_isr(){
+void new_isr()
+{
 led_state = !led_state;//toggle state when interrupt occurs
 digitalWrite(ledPin, led_state); //led pin = 13 equal the state value 
 }
-
